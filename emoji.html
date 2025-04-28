@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emoji Finder 😎</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif;
+      padding: 40px 20px;
+      background: linear-gradient(to right, #f9f9f9, #f0f0f0);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #222;
+      font-size: 3rem;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+    #search {
+      padding: 14px 20px;
+      width: 90%;
+      max-width: 450px;
+      font-size: 18px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: 0.3s all;
+      margin-bottom: 30px;
+    }
+    #search:focus {
+      border-color: #7f5af0;
+      box-shadow: 0 2px 8px rgba(127, 90, 240, 0.3);
+      outline: none;
+    }
+    #emoji-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .emoji {
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      font-size: 30px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+      transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
+      user-select: none;
+    }
+    .emoji:hover {
+      background: #f0e8ff;
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Emoji Finder for u bro</h1>
+  <input type="text" id="search" placeholder="Search emoji...">
+
+  <div id="emoji-container"></div>
+
+  <script>
+    const emojis = [
+      { symbol: '😀', name: 'grinning face' },
+      { symbol: '😁', name: 'beaming face with smiling eyes' },
+      { symbol: '😂', name: 'face with tears of joy' },
+      { symbol: '🤣', name: 'rolling on the floor laughing' },
+      { symbol: '😃', name: 'grinning face with big eyes' },
+      { symbol: '😅', name: 'grinning face with sweat' },
+      { symbol: '😊', name: 'smiling face with smiling eyes' },
+      { symbol: '😍', name: 'smiling face with heart-eyes' },
+      { symbol: '😎', name: 'smiling face with sunglasses' },
+      { symbol: '🤩', name: 'star-struck' },
+      { symbol: '🥳', name: 'partying face' },
+      { symbol: '😢', name: 'crying face' },
+      { symbol: '😭', name: 'loudly crying face' },
+      { symbol: '😡', name: 'pouting face' },
+      { symbol: '👍', name: 'thumbs up' },
+      { symbol: '👎', name: 'thumbs down' },
+      { symbol: '🙏', name: 'folded hands' },
+      { symbol: '🎉', name: 'party popper' },
+      { symbol: '💻', name: 'laptop' },
+      { symbol: '📱', name: 'mobile phone' },
+      { symbol: '🐱', name: 'cat face' },
+      { symbol: '🐶', name: 'dog face' },
+      { symbol: '🦄', name: 'unicorn' },
+      { symbol: '🌟', name: 'glowing star' },
+      { symbol: '🌈', name: 'rainbow' },
+      { symbol: '🔥', name: 'fire' },
+      { symbol: '🍕', name: 'pizza' },
+      { symbol: '🍔', name: 'hamburger' },
+      { symbol: '🍣', name: 'sushi' },
+      { symbol: '⚽', name: 'soccer ball' },
+      { symbol: '🏀', name: 'basketball' },
+      { symbol: '🎸', name: 'guitar' },
+      { symbol: '🚗', name: 'car' },
+      { symbol: '✈️', name: 'airplane' },
+      { symbol: '🏡', name: 'house with garden' },
+      { symbol: '🛒', name: 'shopping cart' },
+      { symbol: '💡', name: 'light bulb' },
+      { symbol: '📚', name: 'books' },
+      { symbol: '💖', name: 'sparkling heart' },
+    ];
+
+    const container = document.getElementById('emoji-container');
+    const searchInput = document.getElementById('search');
+
+    function displayEmojis(filter = '') {
+      container.innerHTML = '';
+      const filtered = emojis.filter(e => e.name.toLowerCase().includes(filter.toLowerCase()));
+      filtered.forEach(emoji => {
+        const div = document.createElement('div');
+        div.className = 'emoji';
+        div.textContent = emoji.symbol;
+        div.title = emoji.name;
+        div.onclick = () => {
+          navigator.clipboard.writeText(emoji.symbol);
+          alert(Copied: ${emoji.symbol});
+        };
+        container.appendChild(div);
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      displayEmojis(searchInput.value);
+    });
+
+    displayEmojis();
+  </script>
+    
+</body>
+</html>

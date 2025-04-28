@@ -7,9 +7,9 @@
     body {
       font-family: 'Segoe UI', 'Helvetica Neue', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif;
       padding: 40px 20px;
-      background: linear-gradient(to right, #f9f9f9, #f0f0f0);
+      background: linear-gradient(135deg, #ab5d5d, #f0f0f0);
       min-height: 100vh;
-      margin: 0;
+      margin: 40;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -59,6 +59,56 @@
       transform: translateY(-5px) scale(1.1);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
     }
+    #details {
+      margin-top: 30px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+    }
+    #favorites {
+      margin-top: 40px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 800px;
+    }
+    #favorite-emojis {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .favorite-emoji {
+      font-size: 28px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .favorite-emoji:hover {
+      transform: scale(1.3);
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      background-color: #7f5af0;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #6841d9;
+    }
   </style>
 </head>
 <body>
@@ -68,6 +118,19 @@
 
   <div id="emoji-container"></div>
 
+  
+  <div id="details">
+    <div id="details-emoji" style="font-size: 48px;"></div>
+    <div id="details-name" style="font-size: 20px; margin-bottom: 10px;"></div>
+    <button id="add-favorite">Add to Favorites ❤️</button>
+  </div>
+
+ 
+  <div id="favorites">
+    <h2>Favorites</h2>
+    <div id="favorite-emojis"></div>
+  </div>
+
   <script>
     const emojis = [
       { symbol: '😀', name: 'grinning face' },
@@ -75,44 +138,100 @@
       { symbol: '😂', name: 'face with tears of joy' },
       { symbol: '🤣', name: 'rolling on the floor laughing' },
       { symbol: '😃', name: 'grinning face with big eyes' },
+      { symbol: '😄', name: 'grinning face with smiling eyes' },
       { symbol: '😅', name: 'grinning face with sweat' },
+      { symbol: '😆', name: 'grinning squinting face' },
+      { symbol: '😉', name: 'winking face' },
       { symbol: '😊', name: 'smiling face with smiling eyes' },
-      { symbol: '😍', name: 'smiling face with heart-eyes' },
+      { symbol: '😋', name: 'face savoring food' },
       { symbol: '😎', name: 'smiling face with sunglasses' },
+      { symbol: '😍', name: 'smiling face with heart-eyes' },
+      { symbol: '😘', name: 'face blowing a kiss' },
+      { symbol: '😗', name: 'kissing face' },
+      { symbol: '😙', name: 'kissing face with smiling eyes' },
+      { symbol: '😚', name: 'kissing face with closed eyes' },
+      { symbol: '🤗', name: 'hugging face' },
       { symbol: '🤩', name: 'star-struck' },
       { symbol: '🥳', name: 'partying face' },
+      { symbol: '😏', name: 'smirking face' },
+      { symbol: '😒', name: 'unamused face' },
+      { symbol: '😞', name: 'disappointed face' },
+      { symbol: '😔', name: 'pensive face' },
+      { symbol: '😟', name: 'worried face' },
       { symbol: '😢', name: 'crying face' },
       { symbol: '😭', name: 'loudly crying face' },
+      { symbol: '😤', name: 'face with steam from nose' },
       { symbol: '😡', name: 'pouting face' },
+      { symbol: '😠', name: 'angry face' },
+      { symbol: '🤬', name: 'face with symbols on mouth' },
       { symbol: '👍', name: 'thumbs up' },
       { symbol: '👎', name: 'thumbs down' },
+      { symbol: '👊', name: 'oncoming fist' },
+      { symbol: '✊', name: 'raised fist' },
+      { symbol: '🤛', name: 'left-facing fist' },
+      { symbol: '🤜', name: 'right-facing fist' },
+      { symbol: '👏', name: 'clapping hands' },
+      { symbol: '🙌', name: 'raising hands' },
       { symbol: '🙏', name: 'folded hands' },
       { symbol: '🎉', name: 'party popper' },
+      { symbol: '🎊', name: 'confetti ball' },
       { symbol: '💻', name: 'laptop' },
       { symbol: '📱', name: 'mobile phone' },
       { symbol: '🐱', name: 'cat face' },
       { symbol: '🐶', name: 'dog face' },
+      { symbol: '🐰', name: 'rabbit face' },
+      { symbol: '🦊', name: 'fox face' },
+      { symbol: '🐻', name: 'bear face' },
+      { symbol: '🐼', name: 'panda face' },
       { symbol: '🦄', name: 'unicorn' },
+      { symbol: '🐸', name: 'frog face' },
       { symbol: '🌟', name: 'glowing star' },
       { symbol: '🌈', name: 'rainbow' },
       { symbol: '🔥', name: 'fire' },
+      { symbol: '💧', name: 'droplet' },
+      { symbol: '❄️', name: 'snowflake' },
       { symbol: '🍕', name: 'pizza' },
       { symbol: '🍔', name: 'hamburger' },
+      { symbol: '🍟', name: 'french fries' },
       { symbol: '🍣', name: 'sushi' },
+      { symbol: '🍩', name: 'doughnut' },
+      { symbol: '🍪', name: 'cookie' },
       { symbol: '⚽', name: 'soccer ball' },
       { symbol: '🏀', name: 'basketball' },
+      { symbol: '🏈', name: 'american football' },
+      { symbol: '⚾', name: 'baseball' },
+      { symbol: '🎾', name: 'tennis' },
+      { symbol: '🏐', name: 'volleyball' },
       { symbol: '🎸', name: 'guitar' },
+      { symbol: '🎹', name: 'musical keyboard' },
+      { symbol: '🥁', name: 'drum' },
       { symbol: '🚗', name: 'car' },
+      { symbol: '🚕', name: 'taxi' },
       { symbol: '✈️', name: 'airplane' },
+      { symbol: '🚀', name: 'rocket' },
       { symbol: '🏡', name: 'house with garden' },
+      { symbol: '🏢', name: 'office building' },
+      { symbol: '🏫', name: 'school' },
       { symbol: '🛒', name: 'shopping cart' },
       { symbol: '💡', name: 'light bulb' },
       { symbol: '📚', name: 'books' },
+      { symbol: '🧠', name: 'brain' },
       { symbol: '💖', name: 'sparkling heart' },
+      { symbol: '❤️', name: 'red heart' },
+      { symbol: '🖤', name: 'black heart' },
+      { symbol: '💔', name: 'broken heart' }
     ];
 
     const container = document.getElementById('emoji-container');
     const searchInput = document.getElementById('search');
+    const details = document.getElementById('details');
+    const detailsEmoji = document.getElementById('details-emoji');
+    const detailsName = document.getElementById('details-name');
+    const addFavoriteBtn = document.getElementById('add-favorite');
+    const favoriteContainer = document.getElementById('favorite-emojis');
+
+    let favorites = [];
+    let currentEmoji = null;
 
     function displayEmojis(filter = '') {
       container.innerHTML = '';
@@ -123,10 +242,32 @@
         div.textContent = emoji.symbol;
         div.title = emoji.name;
         div.onclick = () => {
+          currentEmoji = emoji;
+          details.style.display = 'flex';
+          detailsEmoji.textContent = emoji.symbol;
+          detailsName.textContent = emoji.name;
           navigator.clipboard.writeText(emoji.symbol);
-          alert(Copied: ${emoji.symbol});
+          alert(`Copied: ${emoji.symbol}`);
         };
         container.appendChild(div);
+      });
+    }
+
+    addFavoriteBtn.onclick = () => {
+      if (currentEmoji && !favorites.some(e => e.symbol === currentEmoji.symbol)) {
+        favorites.push(currentEmoji);
+        renderFavorites();
+      }
+    };
+
+    function renderFavorites() {
+      favoriteContainer.innerHTML = '';
+      favorites.forEach(emoji => {
+        const span = document.createElement('span');
+        span.className = 'favorite-emoji';
+        span.textContent = emoji.symbol;
+        span.title = emoji.name;
+        favoriteContainer.appendChild(span);
       });
     }
 
